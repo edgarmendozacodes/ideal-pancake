@@ -18,38 +18,30 @@ on:
 
  
 
-jobs: 
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-  build: 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    runs-on: ubuntu-latest 
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.ADRx8Q~sLH-m4lo_ood-QV8GgBPsHsiEZ7rrWLboZ }}
 
- 
+      - name: Run Tests
+        run: npm test
 
-    steps: 
+      - name: Display Deployment Start
+        run: echo "Starting deployment to Azure..."  # Output message to indicate the start of the deployment
 
-    - name: Checkout Code 
+      - name: Deploy to Azure App Service
+        run: echo "Deploying code to Azure App Service..."  # Output message for progress tracking
 
-      uses: actions/checkout@v2       # Check out the repository code 
-
- 
-
-    - name: Set up Node.js 
-
-      uses: actions/setup-node@v2 
-
-      with: 
-
-        node-version: '14'            # Set up Node.js version 14 
-
- 
-
-    - name: Install Dependencies 
-
-      run: npm install                # Install Node.js dependencies 
-
- 
-
-    - name: Run Tests 
-
-      run: npm test                   # Run tests  
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "ideal-pancakes"
+          package: .
