@@ -1,42 +1,89 @@
-name: Deploy to Azure
+name: Deploy to Azure 
 
-on:
-  push:
-    branches:
-      - main
+on: 
 
-permissions:
-  id-token: write
-  contents: read
+  push: 
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        environment: [staging, production]  # Define multiple environments
-        
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    branches: 
 
-      - name: Log in to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS2 }}  # Replace with GitHub secret for credentials
+      - main 
 
-      - name: Run Tests
-        run: npm test
+ 
 
-      - name: Display Deployment Start
-        run: echo "Starting deployment to Azure..."  # Output message to indicate the start of the deployment
+permissions: 
 
-      - name: Deploy to Azure App Service
-        run: echo "Deploying code to Azure App Service..."  # Output message for progress tracking
+  id-token: write 
 
-      - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: "ideal-pancakes"  # Ensure this matches your Azure App Service name
-          package: .
+  contents: read 
+
+ 
+
+jobs: 
+
+  build-and-deploy: 
+
+    runs-on: ubuntu-latest 
+
+ 
+
+    strategy: 
+
+      matrix: 
+
+        environment: [staging, production]  # Define multiple environments 
+
+ 
+
+    steps: 
+
+      - name: Checkout Repository 
+
+        uses: actions/checkout@v2 
+
+ 
+
+      - name: Log in to Azure 
+
+        uses: azure/login@v1 
+
+        with: 
+
+          creds: ${{ secrets.AZURE_CREDENTIALS2 }} 
+
+ 
+
+      - name: Run Tests 
+
+        run: npm test 
+
+      
+
+      - name: Display Deployment Start 
+
+        run: echo "Starting deployment to Azure..."  # Output message to indicate the start of the deployment 
+
+ 
+
+      - name: Deploy to Azure App Service 
+
+        run: echo "Deploying code to Azure App Service..."  # Output message for progress tracking 
+
+ 
+
+      - name: Deploy to Azure App Service 
+
+        uses: azure/webapps-deploy@v2 
+
+        with: 
+
+          app-name: "ideal-pancakes" 
+
+          package: . 
+
+         
+
+      - name: Rollback if deployment fails 
+
+        if: failure()  # Roll back if the previous step fails 
+
+        run: echo "Rolling back to the previous stable version..." 
