@@ -1,19 +1,45 @@
-name: Cleanup Old Log Files     # The name of the workflow
+name: Cleanup Old Log Files     # The name of the workflow 
 
-on:                             # The workflow will trigger when code is pushed
-  push:
-    branches:
-      - main                    # It will only run on the main branch
+ 
 
-jobs:
-  cleanup:                      # The name of the job
-    runs-on: ubuntu-latest       # The environment in which the job runs
+on:                             # The workflow will trigger when code is pushed 
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3  # Checks out the repository code
+  push:                          
 
-      - name: Delete Old Log Files
-        run: |
-          echo "Deleting log files older than 7 days..."  # Print message to log
-          find logs/ -type f -mtime +7 -delete            # Finds and deletes files older than 7 days in the 'logs' directory
+    branches:                    
+
+      - main                    # It will only run on the main branch 
+
+ 
+
+jobs:                            
+
+  cleanup:                      # The name of the job 
+
+    runs-on: ubuntu-latest      # The environment in which the job runs 
+
+ 
+
+    steps:                       
+
+      - name: Checkout Repository     
+
+        uses: actions/checkout@v3  # Checks out the repository code 
+
+ 
+
+      - name: Delete Old Log Files   
+
+        run: |                      
+
+          echo "Deleting log files older than 7 days..."  # Print message to log 
+
+          if [ -d "logs/" ]; then 
+
+            find logs/ -type f -mtime +7 -delete          # Finds and deletes files older than 7 days in the 'logs' directory 
+
+          else 
+
+            echo "Directory logs/ does not exist."        # Print message if directory does not exist 
+
+          fi 
