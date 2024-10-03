@@ -12,7 +12,7 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+  
     strategy:
       matrix:
         environment: [staging, production]  # Define multiple environments
